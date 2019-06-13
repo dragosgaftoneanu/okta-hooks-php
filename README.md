@@ -16,7 +16,7 @@ composer require dragosgaftoneanu-okta/okta-hooks-php
 * [getallheaders()](https://www.php.net/manual/en/function.getallheaders.php) function available for usage
 * The following features enabled on your Okta organization (you can request them through an email to [support@okta.com](mailto:support@okta.com))
 	* [Event Hook](https://developer.okta.com/docs/concepts/event-hooks/): `CALLBACKS`, `WEBHOOKS`
-	* [Token Inline Hook](https://developer.okta.com/docs/reference/token-hook/): `CALLBACKS`, 'API_ACCESS_MANGEMENT_EXTENSIBILITY'
+	* [Token Inline Hook](https://developer.okta.com/docs/reference/token-hook/): `CALLBACKS`, `API_ACCESS_MANGEMENT_EXTENSIBILITY`
 	* [Import Inline Hook](https://developer.okta.com/use_cases/inline_hooks/import_hook/import_hook/): `CALLBACKS`, `IMPORT_SYNC_CALLBACKS`
 	* [SAML Assertion Inline Hook](https://developer.okta.com/use_cases/inline_hooks/saml_hook/saml_hook/): `CALLBACKS`, `SAML_EXTENSIBILITY`
 	* [Registration Inline Hook](https://developer.okta.com/use_cases/inline_hooks/registration_hook/registration_hook/): `CALLBACKS`
