@@ -82,7 +82,6 @@ composer require dragosgaftoneanu-okta/okta-hooks-php
       - [display()](#display---4)
       - [error($message, $errorCode, $reason, $locationType, $location, $domain)](#error--message---errorcode---reason---locationtype---location---domain-)
     + [Example](#example-4)
-  * [Bugs?](#bugs-)
 
 ## Event Hook
 ### Methods available
