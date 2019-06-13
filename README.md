@@ -24,14 +24,12 @@ composer require dragosgaftoneanu-okta/okta-hooks-php
 ## Table of Contents
   * [Event Hook](#event-hook)
     + [Methods available](#methods-available)
-      - [verifyAuthorizationHeader($authorization)](#verifyauthorizationheader--authorization-)
       - [getEvent()](#getevent--)
       - [oneTimeVerification()](#onetimeverification--)
       - [display()](#display--)
     + [Example](#example)
   * [Token Inline Hook](#token-inline-hook)
     + [Methods available](#methods-available-1)
-      - [verifyAuthorizationHeader($authorization)](#verifyauthorizationheader--authorization--1)
       - [getAccessTokenClaims()](#getaccesstokenclaims--)
       - [getIDTokenClaims()](#getidtokenclaims--)
       - [getScopes()](#getscopes--)
@@ -52,7 +50,6 @@ composer require dragosgaftoneanu-okta/okta-hooks-php
     + [Example](#example-1)
   * [Import Inline Hook](#import-inline-hook)
     + [Methods available](#methods-available-2)
-      - [verifyAuthorizationHeader($authorization)](#verifyauthorizationheader--authorization--2)
       - [getAction()](#getaction--)
       - [getAppUser()](#getappuser--)
       - [getContext()](#getcontext--)
@@ -65,7 +62,6 @@ composer require dragosgaftoneanu-okta/okta-hooks-php
     + [Example](#example-2)
   * [SAML Assertion Inline Hook](#saml-assertion-inline-hook)
     + [Methods available](#methods-available-3)
-      - [verifyAuthorizationHeader($authorization)](#verifyauthorizationheader--authorization--3)
       - [getAssertionClaims()](#getassertionclaims--)
       - [getAssertionSubject()](#getassertionsubject--)
       - [getProtocol()](#getprotocol---1)
@@ -79,7 +75,6 @@ composer require dragosgaftoneanu-okta/okta-hooks-php
     + [Example](#example-3)
   * [Registration Inline Hook](#registration-inline-hook)
     + [Methods available](#methods-available-4)
-      - [verifyAuthorizationHeader($authorization)](#verifyauthorizationheader--authorization--4)
       - [getRequest()](#getrequest---2)
       - [getUser()](#getuser---3)
       - [changeProfileAttribute($attribute, $value)](#changeprofileattribute--attribute---value-)
@@ -92,9 +87,6 @@ composer require dragosgaftoneanu-okta/okta-hooks-php
 ## Event Hook
 ### Methods available
 You can find below the methods implemented for the class in order to successfully execute the hook.
-
-#### verifyAuthorizationHeader($authorization)
-This method verifies the authorization header sent by Okta against the value defined in the attribute to see if they match.
 
 #### getEvent()
 This method returns data.events from the request coming from Okta as an array
@@ -113,7 +105,6 @@ use Okta\Hooks\EventHook;
 
 try{
         $hook = new EventHook();
-        $hook->verifyAuthorizationHeader("my-shared-secret");
         $hook->oneTimeVerification();
         echo $hook->display();
 }catch (Exception $e){
@@ -132,9 +123,6 @@ The answer that the library will return will look like the following.
 ## Token Inline Hook
 ### Methods available
 You can find below the methods implemented for the class in order to successfully execute the hook.
-
-#### verifyAuthorizationHeader($authorization)
-This method verifies the authorization header sent by Okta against the value defined in the attribute to see if they match.
 
 #### getAccessTokenClaims()
 This method returns data.access from the request coming from Okta as an array
@@ -195,7 +183,6 @@ use Okta\Hooks\TokenInlineHook;
 
 try{
 	$hook = new TokenInlineHook();
-	$hook->verifyAuthorizationHeader("my-shared-secret");
 	$hook->modifyIDTokenLifetime(86400);
 	$hook->modifyAccessTokenClaim("aud","new_access_token_audience");
 	echo $hook->display();
@@ -242,9 +229,6 @@ The answer that the library will return is the following.
 ### Methods available
 You can find below the methods implemented for the class in order to successfully execute the hook.
 
-#### verifyAuthorizationHeader($authorization)
-This method verifies the authorization header sent by Okta against the value defined in the attribute to see if they match.
-
 #### getAction()
 This method returns data.action from the request coming from Okta as an array.
 
@@ -280,7 +264,6 @@ use Okta\Hooks\ImportInlineHook;
 
 try{
 	$hook = new ImportInlineHook();
-	$hook->verifyAuthorizationHeader("my-shared-secret");
 	$hook->updateProfile("firstName","John");
 	$hook->updateProfile("lastName","Doe");
 	$hook->updateAppProfile("firstName","Doe");
@@ -332,9 +315,6 @@ The answer that the library will return is the following.
 ### Methods available
 You can find below the methods implemented for the class in order to successfully execute the hook.
 
-#### verifyAuthorizationHeader($authorization)
-This method verifies the authorization header sent by Okta against the value defined in the attribute to see if they match.
-
 #### getAssertionClaims()
 This method returns data.assertion.claims from the request coming from Okta as an array.
 
@@ -373,7 +353,6 @@ use Okta\Hooks\SAMLInlineHook;
 
 try{
 	$hook = new SAMLInlineHook();
-	$hook->verifyAuthorizationHeader("my-shared-secret");
 	$hook->addClaim("test","urn:oasis:names:tc:SAML:2.0:attrname-format:basic","xs:string","test");
 	echo $hook->display();
 }catch (Exception $e){
@@ -416,9 +395,6 @@ The answer that the library will return is the following.
 ### Methods available
 You can find below the methods implemented for the class in order to successfully execute the hook.
 
-#### verifyAuthorizationHeader($authorization)
-This method verifies the authorization header sent by Okta against the value defined in the attribute to see if they match.
-
 #### getRequest()
 This method returns data.context.request from the request coming from Okta as an array.
 
@@ -445,7 +421,6 @@ use Okta\Hooks\RegistrationInlineHook;
 
 try{
 	$hook = new RegistrationInlineHook();
-	$hook->verifyAuthorizationHeader("my-shared-secret");
 	$hook->changeProfileAttribute("firstName", "John");
 	$hook->changeProfileAttribute("lastName", "Doe");
 	$hook->allowUser(FALSE);

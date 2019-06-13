@@ -31,12 +31,6 @@ class SAMLInlineHook extends Exception
 			$this->request = $request;
 	}
 	
-	public function verifyAuthorizationHeader($authorization)
-	{
-		if(getallheaders()['Authorization'] != $authorization)
-			return $this->error("Authorization header is invalid.");
-	}
-	
 	public function display()
 	{
 		return json_encode(array("commands" => array(array("type" => "com.okta.assertion.patch", "value" => $this->response))),JSON_UNESCAPED_SLASHES);

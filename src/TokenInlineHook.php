@@ -34,12 +34,6 @@ class TokenInlineHook extends Exception
 			$this->request = $request;
 	}
 	
-	public function verifyAuthorizationHeader($authorization)
-	{
-		if(getallheaders()['Authorization'] != $authorization)
-			return $this->error("Authorization header is invalid.");
-	}
-	
 	public function display()
 	{
 		if(!empty($this->id_token))

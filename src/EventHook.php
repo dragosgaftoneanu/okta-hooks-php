@@ -36,12 +36,6 @@ class EventHook extends Exception
 		}
 	}
 	
-	public function verifyAuthorizationHeader($authorization)
-	{		
-		if($this->request_headers()['Authorization'] != $authorization)
-			return $this->error("Authorization header is invalid.");
-	}
-	
 	public function display()
 	{
 		if(!empty($this->response))
