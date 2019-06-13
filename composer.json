@@ -1,0 +1,19 @@
+{
+    "name": "dragosgaftoneanu-okta/okta-hooks-php",
+    "description": "Library used to integrate Okta Hooks feature inside PHP applications.",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Dragos Gaftoneanu",
+            "email": "dragos.gaftoneanu@okta.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Okta\\Hooks\\": "src/"
+        }
+    },
+	"require":{
+		"php": ">=7.0.0"
+	}
+}

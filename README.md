@@ -1,0 +1,413 @@
+# Okta Hooks PHP
+This repository contains the source for the Okta Hooks PHP library that can be used for integrating the new [Okta Hooks](https://www.okta.com/hooks/) feature inside your PHP application.
+
+:warning: **Disclaimer:** This is not an official product and does not qualify for Okta Support.
+
+## Installation
+You can install this library by running the following command through Composer
+
+```
+composer require dragosgaftoneanu-okta/okta-hooks-php
+```
+
+## Requirements
+* An Okta account, called an _organization_ (you can sign up for a free [developer organization](https://developer.okta.com/signup/))
+* A local web server that runs PHP 7.0+
+* [getallheaders()](https://www.php.net/manual/en/function.getallheaders.php) function available for usage
+* The following features enabled on your Okta organization (you can request them through an email to [support@okta.com](mailto:support@okta.com))
+** [Event Hook](https://developer.okta.com/docs/concepts/event-hooks/): `CALLBACKS`, `WEBHOOKS`
+** [Token Inline Hook](https://developer.okta.com/docs/reference/token-hook/): `CALLBACKS`, 'API_ACCESS_MANGEMENT_EXTENSIBILITY'
+** [Import Inline Hook](https://developer.okta.com/use_cases/inline_hooks/import_hook/import_hook/): `CALLBACKS`, `IMPORT_SYNC_CALLBACKS`
+** [SAML Assertion Inline Hook](https://developer.okta.com/use_cases/inline_hooks/saml_hook/saml_hook/): `CALLBACKS`, `SAML_EXTENSIBILITY`
+** [Registration Inline Hook](https://developer.okta.com/use_cases/inline_hooks/registration_hook/registration_hook/): `CALLBACKS`
+
+## Event Hook
+### Methods available
+You can find below the methods implemented for the class in order to successfully execute the hook.
+
+#### verifyAuthorizationHeader($authorization)
+This method verifies the authorization header sent by Okta against the value defined in the attribute to see if they match.
+
+#### getEvent()
+This method returns data.events from the request coming from Okta as an array
+
+#### oneTimeVerification()
+This method returns `X-Okta-Verification-Challenge` header in the response in order to successfully verify the event hook.
+
+#### display()
+This method displays the final response to the request coming from Okta.
+
+### Example
+You can find below an example script for verifying an event hook.
+
+```php
+use Okta\Hooks\EventHook;
+
+try{
+        $hook = new EventHook();
+        $hook->verifyAuthorizationHeader("my-shared-secret");
+        $hook->oneTimeVerification();
+        echo $hook->display();
+}catch (Exception $e){
+        echo $e->getMessage();
+}
+```
+
+The answer that the library will return will look like the following.
+
+```
+{
+    "verification": "T8tTyt5x9WobwSh0np41HlSF6lwl9elP0-cpcmNU"
+}
+```
+
+## Token Inline Hook
+### Methods available
+You can find below the methods implemented for the class in order to successfully execute the hook.
+
+#### verifyAuthorizationHeader($authorization)
+This method verifies the authorization header sent by Okta against the value defined in the attribute to see if they match.
+
+#### getAccessTokenClaims()
+This method returns data.access from the request coming from Okta as an array
+
+#### getIDTokenClaims()
+This method returns data.identity from the request coming from Okta as an array.
+
+#### getScopes()
+This method returns data.scopes from the request coming from Okta as an array.
+
+#### getPolicy()
+This method returns data.context.policy from the request coming from Okta as an array.
+
+#### getProtocol()
+This method returns data.context.protocol from the request coming from Okta as an array.
+
+#### getRequest()
+This method returns data.context.request from the request coming from Okta as an array.
+
+#### getSession()
+This method returns data.context.session from the request coming from Okta as an array.
+
+#### getUser()
+This method returns data.context.user from the request coming from Okta as an array.
+
+#### addAccessTokenClaim($name, $value)
+This method tells Okta to add a claim inside the access token that will be returned.
+
+#### modifyAccessTokenClaim($name, $value)
+This method tells Okta to modify a claim inside the access token that will be returned with a new value.
+
+#### removeAccessTokenClaim($name)
+This method tells Okta to remove a claim inside the access token that will be returned.
+
+#### modifyAccessTokenLifetime($value)
+This method tells Okta to modify the access token's lifetime. The token can have a lifetime of minimum 5 minutes (300 seconds) and a maximum of 24 hours (86400 seconds).
+
+#### addIDTokenClaim($name, $value)
+This method tells Okta to add a claim inside the ID token that will be returned.
+
+#### modifyIDTokenClaim($name, $value)
+This method tells Okta to modify a claim inside the ID token that will be returned with a new value.
+
+#### removeIDTokenClaim($name)
+This method tells Okta to remove a claim inside the ID token that will be returned.
+
+#### modifyIDTokenLifetime($value)
+This method tells Okta to modify the ID token's lifetime. The token can have a lifetime of minimum 5 minutes (300 seconds) and a maximum of 24 hours (86400 seconds).
+
+#### display()
+This method displays the final response to the request coming from Okta.
+
+### Example
+You can find below an example script for adding a new claim inside an ID token, modifying an ID token's lifetime expiration to 1 day and changing an access token's audience.
+
+```php
+use Okta\Hooks\TokenInlineHook;
+
+try{
+	$hook = new TokenInlineHook();
+	$hook->verifyAuthorizationHeader("my-shared-secret");
+	$hook->modifyIDTokenLifetime(86400);
+	$hook->modifyAccessTokenClaim("aud","new_access_token_audience");
+	echo $hook->display();
+}catch (Exception $e){
+        echo $e->getMessage();
+}
+```
+
+The answer that the library will return is the following.
+
+```
+{
+    "commands": [
+        {
+            "type": "com.okta.identity.patch",
+            "value": [
+                {
+                    "op": "add",
+                    "path": "/claims/claim",
+                    "value": "test_value"
+                },
+                {
+                    "op": "replace",
+                    "path": "/token/lifetime/expiration",
+                    "value": 86400
+                }
+            ]
+        },
+        {
+            "type": "com.okta.access.patch",
+            "value": [
+                {
+                    "op": "replace",
+                    "path": "/claims/aud",
+                    "value": "new_access_token_audience"
+                }
+            ]
+        }
+    ]
+}
+```
+
+## Import Inline Hook
+### Methods available
+You can find below the methods implemented for the class in order to successfully execute the hook.
+
+#### verifyAuthorizationHeader($authorization)
+This method verifies the authorization header sent by Okta against the value defined in the attribute to see if they match.
+
+#### getAction()
+This method returns data.action from the request coming from Okta as an array.
+
+#### getAppUser()
+This method returns data.appUser from the request coming from Okta as an array.
+
+#### getContext()
+This method returns data.context from the request coming from Okta as an array.
+
+#### getUser()
+This method returns data.user from the request coming from Okta as an array.
+
+#### updateAppProfile($attribute, $value)
+This method tells Okta to update a profile attribute from the ones available under data.appUser in the request coming from Okta.
+
+#### updateProfile($attribute, $value)
+This method tells Okta to update a profile attribute from the ones available under data.user in the request coming from Okta.
+
+#### action($status)
+This method tells Okta for the current imported user to either create it as a new user inside of Okta (`$status = "create";`) or to link it with an existing one (`$status = "link";`).
+
+#### linkWith($user)
+If action is set to link the user with an existing one, with this method you can mention the user ID with which the current imported user will be linked.
+
+#### display()
+This method displays the final response to the request coming from Okta.
+
+### Example
+You can find below an example script for modifying the first name and last name for both user profile and app user profile and to link the user with an existing Okta user that has user ID set to 00uozbgc03wzqoaXp2p6.
+
+```php
+use Okta\Hooks\ImportInlineHook;
+
+try{
+	$hook = new ImportInlineHook();
+	$hook->verifyAuthorizationHeader("my-shared-secret");
+	$hook->updateProfile("firstName","John");
+	$hook->updateProfile("lastName","Doe");
+	$hook->updateAppProfile("firstName","Doe");
+	$hook->updateAppProfile("lastName","John");
+	$hook->action("link");
+	$hook->linkWith("00uozbgc03wzqoaXp2p6");
+	echo $hook->display();
+}catch (Exception $e){
+        echo $e->getMessage();
+}
+```
+
+The answer that the library will return is the following.
+
+```
+{
+    "commands": [
+        {
+            "type": "com.okta.action.update",
+            "value": {
+                "result": "LINK_USER"
+            }
+        },
+        {
+            "type": "com.okta.user.update",
+            "value": {
+                "id": "00uozbgc03wzqoaXp2p6"
+            }
+        },
+        {
+            "type": "com.okta.user.profile.update",
+            "value": {
+                "firstName": "John",
+                "lastName": "Doe"
+            }
+        },
+        {
+            "type": "com.okta.appUser.profile.update",
+            "value": {
+                "firstName": "Doe",
+                "lastName": "John"
+            }
+        }
+    ]
+}
+```
+
+## SAML Assertion Inline Hook
+### Methods available
+You can find below the methods implemented for the class in order to successfully execute the hook.
+
+#### verifyAuthorizationHeader($authorization)
+This method verifies the authorization header sent by Okta against the value defined in the attribute to see if they match.
+
+#### getAssertionClaims()
+This method returns data.assertion.claims from the request coming from Okta as an array.
+
+#### getAssertionSubject()
+This method returns data.assertion.subject from the request coming from Okta as an array.
+
+#### getProtocol()
+This method returns data.context.protocol from the request coming from Okta as an array.
+
+#### getRequest()
+This method returns data.context.request from the request coming from Okta as an array.
+
+#### getSession()
+This method returns data.context.session from the request coming from Okta as an array.
+
+#### getUser()
+This method returns data.user from the request coming from Okta as an array.
+
+#### addClaim($name, $nameFormat, $xsiType, $value)
+This method tells Okta to add a claim inside the assertion.
+
+#### modifyClaim($name, $newValue)
+This method tells Okta to modify a specific claim value inside the assertion.
+
+#### modifyAssertion($path, $newValue)
+This method tells Okta to modify a specific value inside the assertion.
+
+#### display()
+This method displays the final response to the request coming from Okta.
+
+### Example
+You can find below an example script for adding a new claim inside the assertion.
+
+```php
+use Okta\Hooks\SAMLInlineHook;
+
+try{
+	$hook = new SAMLInlineHook();
+	$hook->verifyAuthorizationHeader("my-shared-secret");
+	$hook->addClaim("test","urn:oasis:names:tc:SAML:2.0:attrname-format:basic","xs:string","test");
+	echo $hook->display();
+}catch (Exception $e){
+        echo $e->getMessage();
+}
+```
+
+The answer that the library will return is the following.
+
+```
+{
+    "commands": [
+        {
+            "type": "com.okta.assertion.patch",
+            "value": [
+                {
+                    "op": "add",
+                    "path": "/claims/test",
+                    "value": {
+                        "attributes": {
+                            "NameFormat": "urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
+                        },
+                        "attributeValues": [
+                            {
+                                "attributes": {
+                                    "xsi:type": "xs:string"
+                                },
+                                "value": "test"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+## Registration Inline Hook
+### Methods available
+You can find below the methods implemented for the class in order to successfully execute the hook.
+
+#### verifyAuthorizationHeader($authorization)
+This method verifies the authorization header sent by Okta against the value defined in the attribute to see if they match.
+
+#### getRequest()
+This method returns data.context.request from the request coming from Okta as an array.
+
+#### getUser()
+This method returns data.user from the request coming from Okta as an array.
+
+#### changeProfileAttribute($attribute, $value)
+This method tells Okta to update a profile attribute from the ones available under data.user.profile in the request coming from Okta.
+
+#### allowUser($status)
+This method tells Okta to either allow the user to be registered (`$status = TRUE;`) or not (`$status = FALSE;`).
+
+#### display()
+This method displays the final response to the request coming from Okta.
+
+#### error($message, $errorCode, $reason, $locationType, $location, $domain)
+This method displays an error message for the end-user upon registration, as exemplified in the documentation [here](https://developer.okta.com/use_cases/inline_hooks/registration_hook/registration_hook/#sample-json-payload-of-request). 
+
+### Example
+You can find below an example script for modifying the first name and last name for user profile and then block the user.
+
+```php
+use Okta\Hooks\RegistrationInlineHook;
+
+try{
+	$hook = new RegistrationInlineHook();
+	$hook->verifyAuthorizationHeader("my-shared-secret");
+	$hook->changeProfileAttribute("firstName", "John");
+	$hook->changeProfileAttribute("lastName", "Doe");
+	$hook->allowUser(FALSE);
+	echo $hook->display();
+}catch (Exception $e){
+        echo $e->getMessage();
+}
+```
+
+The answer that the library will return is the following.
+
+```
+{
+    "commands": [
+        {
+            "type": "com.okta.action.update",
+            "value": {
+                "action": "DENY"
+            }
+        },
+        {
+            "type": "com.okta.user.profile.update",
+            "value": {
+                "firstName": "John",
+                "lastName": "Doe"
+            }
+        }
+    ]
+}
+```
+
+## Bugs?
+If you find a bug or encounter an issue when using the class, please open an issue in this repository and it will be further investigated.
