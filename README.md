@@ -15,11 +15,11 @@ composer require dragosgaftoneanu-okta/okta-hooks-php
 * A local web server that runs PHP 7.0+
 * [getallheaders()](https://www.php.net/manual/en/function.getallheaders.php) function available for usage
 * The following features enabled on your Okta organization (you can request them through an email to [support@okta.com](mailto:support@okta.com))
-** [Event Hook](https://developer.okta.com/docs/concepts/event-hooks/): `CALLBACKS`, `WEBHOOKS`
-** [Token Inline Hook](https://developer.okta.com/docs/reference/token-hook/): `CALLBACKS`, 'API_ACCESS_MANGEMENT_EXTENSIBILITY'
-** [Import Inline Hook](https://developer.okta.com/use_cases/inline_hooks/import_hook/import_hook/): `CALLBACKS`, `IMPORT_SYNC_CALLBACKS`
-** [SAML Assertion Inline Hook](https://developer.okta.com/use_cases/inline_hooks/saml_hook/saml_hook/): `CALLBACKS`, `SAML_EXTENSIBILITY`
-** [Registration Inline Hook](https://developer.okta.com/use_cases/inline_hooks/registration_hook/registration_hook/): `CALLBACKS`
+	* [Event Hook](https://developer.okta.com/docs/concepts/event-hooks/): `CALLBACKS`, `WEBHOOKS`
+	* [Token Inline Hook](https://developer.okta.com/docs/reference/token-hook/): `CALLBACKS`, 'API_ACCESS_MANGEMENT_EXTENSIBILITY'
+	* [Import Inline Hook](https://developer.okta.com/use_cases/inline_hooks/import_hook/import_hook/): `CALLBACKS`, `IMPORT_SYNC_CALLBACKS`
+	* [SAML Assertion Inline Hook](https://developer.okta.com/use_cases/inline_hooks/saml_hook/saml_hook/): `CALLBACKS`, `SAML_EXTENSIBILITY`
+	* [Registration Inline Hook](https://developer.okta.com/use_cases/inline_hooks/registration_hook/registration_hook/): `CALLBACKS`
 
 ## Event Hook
 ### Methods available
@@ -410,4 +410,4 @@ The answer that the library will return is the following.
 ```
 
 ## Bugs?
-If you find a bug or encounter an issue when using the class, please open an issue in this repository and it will be further investigated.
+If you find a bug or encounter an issue when using the library, please open an issue on GitHub [here](https://github.com/dragosgaftoneanu-okta/okta-hooks-php/issues) and it will be further investigated.
