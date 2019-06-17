@@ -1,13 +1,13 @@
 # Okta Hooks PHP
-This repository contains the source for the Okta Hooks PHP library that can be used for integrating the new [Okta Hooks](https://www.okta.com/hooks/) feature inside your PHP application.
+This repository contains the source for the Okta Hooks PHP SDK that can be used for integrating the new [Okta Hooks](https://www.okta.com/hooks/) feature inside your PHP application.
 
 :warning: **Disclaimer:** This is not an official product and does not qualify for Okta Support.
 
 ## Installation
-You can install this library by running the following command through Composer
+You can install this SDK by running the following command through Composer
 
 ```
-composer require dragosgaftoneanu-okta/okta-hooks-php
+composer require dragosgaftoneanu/okta-hooks-php
 ```
 
 ## Requirements
@@ -111,7 +111,7 @@ try{
 }
 ```
 
-The answer that the library will return will look like the following.
+The answer that the SDK will return will look like the following.
 
 ```
 {
@@ -190,7 +190,7 @@ try{
 }
 ```
 
-The answer that the library will return is the following.
+The answer that the SDK will return is the following.
 
 ```
 {
@@ -275,7 +275,7 @@ try{
 }
 ```
 
-The answer that the library will return is the following.
+The answer that the SDK will return is the following.
 
 ```
 {
@@ -359,7 +359,7 @@ try{
 }
 ```
 
-The answer that the library will return is the following.
+The answer that the SDK will return is the following.
 
 ```
 {
@@ -429,7 +429,7 @@ try{
 }
 ```
 
-The answer that the library will return is the following.
+The answer that the SDK will return is the following.
 
 ```
 {
@@ -452,4 +452,4 @@ The answer that the library will return is the following.
 ```
 
 ## Bugs?
-If you find a bug or encounter an issue when using the library, please open an issue on GitHub [here](https://github.com/dragosgaftoneanu-okta/okta-hooks-php/issues) and it will be further investigated.
+If you find a bug or encounter an issue when using the SDK, please open an issue on GitHub [here](https://github.com/dragosgaftoneanu/okta-hooks-php/issues) and it will be further investigated.
