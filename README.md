@@ -90,7 +90,6 @@ composer require dragosgaftoneanu/okta-hooks-php
       - [allow()](#allow)
       - [deny()](#deny)
       - [error($message)](#errormessage)
-      - [error($message, $errorCode, $reason, $locationType, $location, $domain)](#errormessage-errorcode-reason-locationtype-location-domain)
     + [Example](#example-5)
 
 ## Event Hook
