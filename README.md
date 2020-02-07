@@ -89,7 +89,6 @@ composer require dragosgaftoneanu/okta-hooks-php
       - [getRequest()](#getrequest-3)
       - [allow()](#allow)
       - [deny()](#deny)
-      - [error($message)](#errormessage)
     + [Example](#example-5)
 
 ## Event Hook
@@ -475,9 +474,6 @@ This method displays a VERIFIED response that will tell Okta that the credential
 
 #### deny()
 This method displays an UNVERIFIED response that will tell Okta that the credentials are incorrect and will not allow the user to authenticate.
-
-#### error($message)
-This method displays an error message.
 
 ### Example
 You can find below an example script for checking the username and a password received from Okta and allowing the request if they contain specific values.
