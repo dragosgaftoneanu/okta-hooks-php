@@ -12,7 +12,7 @@ composer require dragosgaftoneanu/okta-hooks-php
 
 ## Requirements
 * An Okta account, called an _organization_ (you can sign up for a free [developer organization](https://developer.okta.com/signup/))
-* A local web server that runs PHP 7.0+
+* A local web server that runs PHP 5.6+
 * [getallheaders()](https://www.php.net/manual/en/function.getallheaders.php) function available for usage
 * The following features enabled on your Okta organization (you can request them through an email to [support@okta.com](mailto:support@okta.com))
 	* [Event Hook](https://developer.okta.com/docs/concepts/event-hooks/): `CALLBACKS`, `WEBHOOKS`
@@ -20,6 +20,7 @@ composer require dragosgaftoneanu/okta-hooks-php
 	* [Import Inline Hook](https://developer.okta.com/use_cases/inline_hooks/import_hook/import_hook/): `CALLBACKS`, `IMPORT_SYNC_CALLBACKS`
 	* [SAML Assertion Inline Hook](https://developer.okta.com/use_cases/inline_hooks/saml_hook/saml_hook/): `CALLBACKS`, `SAML_EXTENSIBILITY`
 	* [Registration Inline Hook](https://developer.okta.com/use_cases/inline_hooks/registration_hook/registration_hook/): `CALLBACKS`
+	* [Password Import Inline Hook](https://developer.okta.com/docs/reference/password-hook/): `CALLBACKS`
 
 ## Table of Contents
   * [Event Hook](#event-hook)
@@ -448,6 +449,55 @@ The answer that the SDK will return is the following.
             }
         }
     ]
+}
+```
+
+## Password Import Inline Hook
+### Methods available
+You can find below the methods implemented for the class in order to successfully execute the hook.
+
+#### getCredentials()
+This method returns data.context.credential from the request coming from Okta as an array.
+
+#### getRequest()
+This method returns data.context.request from the request coming from Okta as an array.
+
+### allow()
+This method displays a VERIFIED response that will tell Okta that the credentials are correct and allow the user to authenticate.
+
+### deny()
+This method displays an UNVERIFIED response that will tell Okta that the credentials are incorrect and will not allow the user to authenticate.
+
+#### error($message)
+This method displays an error message.
+
+### Example
+You can find below an example script for checking the username and a password received from Okta and allowing the request if they contain specific values.
+
+```php
+use Okta\Hooks\PasswordInlineHook;
+
+try{
+	$hook = new PasswordInlineHook();
+	if($hook->getCredentials()['username'] == "isaac.brock@example.com" && $hook->getCredentials()['password'] == "Okta")
+		echo $hook->allow();
+	else
+		echo $hook->deny();
+}catch (Exception $e){
+        echo $e->getMessage();
+}
+```
+
+The answer that the SDK will return is the following.
+
+```
+{
+    "commands": [{
+        "type": "com.okta.action.update",
+        "value": {
+            "credential": "VERIFIED"
+        }
+    }]
 }
 ```
 

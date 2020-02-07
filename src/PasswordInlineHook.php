@@ -22,50 +22,47 @@
 namespace Okta\Hooks;
 use Exception;
 
-class RegistrationInlineHook extends Exception
+class PasswordInlineHook extends Exception
 {
 	protected $request = "";
-	protected $response = array();
-	protected $profile = array();
 	
 	public function __construct()
 	{
 		$request = json_decode(file_get_contents('php://input'),true);
 		
-		if($request['eventType'] != "com.okta.user.pre-registration")
+		if($request['eventType'] != "com.okta.user.credential.password.import")
 			return $this->error("Incorrect event type is selected in the request.");
 		else
 			$this->request = $request;
 	}
 	
-	public function display()
+	public function allow()
 	{
-		$this->response[] = array(
-			"type" => "com.okta.user.profile.update",
-			"value" => $this->profile
-		);
-		return json_encode(array("commands" => $this->response),JSON_UNESCAPED_SLASHES);
-	}
-	
-	public function changeProfileAttribute($attribute, $value)
-	{
-		$this->profile[$attribute]=$value;
-	}
-	
-	public function allowUser($status)
-	{
-		if(!$status)
-			$this->response[] = array(
-				"type" => "com.okta.action.update",
-				"value" => array(
-					"action" => "DENY"
+		return json_encode(array(
+			"commands" => array(
+				array(
+					"type" => "com.okta.action.update",
+					"value" => array("credential" => "VERIFIED")
 				)
-			);
+			)
+		));
 	}
 	
-	public function getUser()
+	public function deny()
 	{
-		return $this->request['data']['user'];
+		return json_encode(array(
+			"commands" => array(
+				array(
+					"type" => "com.okta.action.update",
+					"value" => array("credential" => "UNVERIFIED")
+				)
+			)
+		));
+	}
+	
+	public function getCredentials()
+	{
+		return $this->request['data']['context']['credential'];
 	}
 	
 	public function getRequest()
@@ -73,18 +70,11 @@ class RegistrationInlineHook extends Exception
 		return $this->request['data']['context']['request'];
 	}
 	
-	public function error($message, $reason="", $locationType="", $location="", $domain="")
+	private function error($message)
 	{
 		throw new \Exception(json_encode(array(
 			'error' => array(
-			'errorSummary' => $message,
-			'errorCauses' => array(array(
-				'errorSummary' => $message,
-				'reason' => $reason,
-				'locationType' => $locationType,
-				'location' => $location,
-				'domain' => $domain
-			)
-		))),JSON_UNESCAPED_SLASHES));
+			'errorSummary' => $message
+		)),JSON_UNESCAPED_SLASHES));
 	}
 }
