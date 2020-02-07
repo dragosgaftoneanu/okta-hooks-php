@@ -83,6 +83,15 @@ composer require dragosgaftoneanu/okta-hooks-php
       - [display()](#display-4)
       - [error($message, $errorCode, $reason, $locationType, $location, $domain)](#errormessage-errorcode-reason-locationtype-location-domain)
     + [Example](#example-4)
+  * [Password Import Inline Hook](#password-import-inline-hook)
+    + [Methods available](#methods-available-5)
+      - [getCredentials()](#getcredentials)
+      - [getRequest()](#getrequest-3)
+      - [allow()](#allow)
+      - [deny()](#deny)
+      - [error($message)](#errormessage)
+      - [error($message, $errorCode, $reason, $locationType, $location, $domain)](#errormessage-errorcode-reason-locationtype-location-domain)
+    + [Example](#example-5)
 
 ## Event Hook
 ### Methods available
@@ -462,10 +471,10 @@ This method returns data.context.credential from the request coming from Okta as
 #### getRequest()
 This method returns data.context.request from the request coming from Okta as an array.
 
-### allow()
+#### allow()
 This method displays a VERIFIED response that will tell Okta that the credentials are correct and allow the user to authenticate.
 
-### deny()
+#### deny()
 This method displays an UNVERIFIED response that will tell Okta that the credentials are incorrect and will not allow the user to authenticate.
 
 #### error($message)
