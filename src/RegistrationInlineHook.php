@@ -1,5 +1,5 @@
 <?php
-/** Copyright © 2019 Dragos Gaftoneanu
+/** Copyright © 2019-2020 Dragos Gaftoneanu
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ class RegistrationInlineHook extends Exception
 	protected $request = "";
 	protected $response = array();
 	protected $profile = array();
+	protected $deny = FALSE;
 	
 	public function __construct()
 	{
@@ -40,10 +41,11 @@ class RegistrationInlineHook extends Exception
 	
 	public function display()
 	{
-		$this->response[] = array(
-			"type" => "com.okta.user.profile.update",
-			"value" => $this->profile
-		);
+		if(!$this->deny && !empty($this->profile))
+			$this->response[] = array(
+				"type" => "com.okta.user.profile.update",
+				"value" => $this->profile
+			);
 		return json_encode(array("commands" => $this->response),JSON_UNESCAPED_SLASHES);
 	}
 	
@@ -55,22 +57,23 @@ class RegistrationInlineHook extends Exception
 	public function allowUser($status)
 	{
 		if(!$status)
-			$this->response[] = array(
-				"type" => "com.okta.action.update",
-				"value" => array(
-					"action" => "DENY"
-				)
-			);
+		{
+			$action = "DENY";
+			$this->deny = TRUE;
+		}else
+			$action = "ALLOW";
+		
+		$this->response[] = array(
+			"type" => "com.okta.action.update",
+			"value" => array(
+				"registration" => "$action"
+			)
+		);
 	}
 	
-	public function getUser()
+	public function getRaw()
 	{
-		return $this->request['data']['user'];
-	}
-	
-	public function getRequest()
-	{
-		return $this->request['data']['context']['request'];
+		return $this->request;
 	}
 	
 	public function error($message, $reason="", $locationType="", $location="", $domain="")

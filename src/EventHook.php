@@ -1,5 +1,5 @@
 <?php
-/** Copyright © 2019 Dragos Gaftoneanu
+/** Copyright © 2019-2020 Dragos Gaftoneanu
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,9 +58,9 @@ class EventHook extends Exception
 		}
 	}
 	
-	public function getEvent()
+	public function getRaw()
 	{
-		return $this->request['data']['events'];
+		return $this->request;
 	}
 	
 	private function error($message)

@@ -1,5 +1,5 @@
 <?php
-/** Copyright © 2019 Dragos Gaftoneanu
+/** Copyright © 2019-2020 Dragos Gaftoneanu
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -93,25 +93,10 @@ class ImportInlineHook extends Exception
 		);
 	}
 	
-	public function getUser()
+	public function getRaw()
 	{
-		return $this->request['data']['user'];
+		return $this->request;
 	}
-	
-	public function getAppUser()
-	{
-		return $this->request['data']['appuser'];
-	}
-	
-	public function getAction()
-	{
-		return $this->request['data']['action'];
-	}
-	
-	public function getContext()
-	{
-		return $this->request['data']['context'];
-	}	
 	
 	private function error($message)
 	{

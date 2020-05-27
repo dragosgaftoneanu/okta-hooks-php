@@ -1,5 +1,5 @@
 <?php
-/** Copyright © 2019 Dragos Gaftoneanu
+/** Copyright © 2019-2020 Dragos Gaftoneanu
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -88,34 +88,9 @@ class SAMLInlineHook extends Exception
 		);
 	}
 	
-	public function getRequest()
+	public function getRaw()
 	{
-		return $this->request['data']['context']['request'];
-	}
-	
-	public function getProtocol()
-	{
-		return $this->request['data']['context']['protocol'];
-	}
-	
-	public function getSession()
-	{
-		return $this->request['data']['context']['session'];
-	}
-
-	public function getUser()
-	{
-		return $this->request['data']['context']['user'];
-	}
-	
-	public function getAssertionSubject()
-	{
-		return $this->request['data']['assertion']['subject'];
-	}
-	
-	public function getAssertionClaims()
-	{
-		return $this->request['data']['assertion']['claims'];
+		return $this->request;
 	}
 	
 	private function error($message)
