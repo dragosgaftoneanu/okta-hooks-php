@@ -1,7 +1,7 @@
 {
     "name": "dragosgaftoneanu/okta-hooks-php",
     "description": "SDK used to integrate Okta Hooks feature inside PHP applications.",
-    "license": "Apache-2.0",
+    "license": "MIT",
     "authors": [{
         "name": "Dragos Gaftoneanu",
         "email": "dragos.gaftoneanu@gmail.com"
